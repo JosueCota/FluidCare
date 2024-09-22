@@ -1,13 +1,20 @@
-import { Text, View } from "react-native";
+import { TextInput } from "react-native";
 
 
-export default Input = () => {
+export default Input = ({title, placeholder, callback}) => {
 
-    return (
-        <View>
-            <Text>
-                Hey
-            </Text>
-        </View>
+    return (   
+        <TextInput 
+            style={styles.Input} 
+            onChange={() => callback} 
+            title={title}
+            placeholder={placeholder}
+        />
     );
+}
+
+const styles = {
+    Input: {
+
+    }
 }
