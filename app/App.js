@@ -1,12 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useEffect, useState } from 'react';
+import SQLite from "react-native-sqlite-storage"
 
 import Home from './src/screens/Home';
 import Tracking from './src/screens/Tracking';
 import Profile from './src/screens/Profile';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useEffect, useState } from 'react';
 import Setup from './src/screens/Setup';
 
 export default function App() {
@@ -14,9 +15,22 @@ export default function App() {
   
   const [name, setName] = useState("");
   const [setupDone, setSetupDone] = useState("")
-
+  
+  
   useEffect(()=> {
-    // setName(localStorage.getItem("name"));
+    const db = SQLite.openDatabase(
+    {
+      name: "FluidCareDB",
+          location: "default"
+      },
+      (success) => {
+          console.log("success")
+      },
+      error => {
+          console.log(error)
+      }
+  );
+  
   }, [])
 
   return (
