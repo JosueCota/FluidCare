@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect, useState } from 'react';
-import SQLite from "react-native-sqlite-storage"
+import * as SQLite from "expo-sqlite"
 
 import Home from './src/screens/Home';
 import Tracking from './src/screens/Tracking';
@@ -10,29 +10,45 @@ import Profile from './src/screens/Profile';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Setup from './src/screens/Setup';
 
+
+
 export default function App() {
   const Tab = createBottomTabNavigator();
   
   const [name, setName] = useState("");
   const [setupDone, setSetupDone] = useState("")
-  
-  
-  useEffect(()=> {
-    const db = SQLite.openDatabase(
-    {
-      name: "FluidCareDB",
-          location: "default"
-      },
-      (success) => {
-          console.log("success")
-      },
-      error => {
-          console.log(error)
-      }
-  );
-  
-  }, [])
+  const [isLoading, setIsLoading] = useState(true)
 
+  const db = SQLite.openDatabaseSync("fluidDB.db")
+
+  useEffect(() => {
+    setIsLoading(false)
+    console.log(name)
+  }, [name])
+
+  useEffect(() => {
+      db.execAsync(`
+        PRAGMA journal_mode = WAL;
+        CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, diaDays TEXT NOT NULL, diaTime TEXT NOT NULL);
+        `)
+        .then(() => setUser())
+        .catch((error) => {
+          console.log(error)
+        })
+    }, [])
+
+  async function setUser() {
+    row = await db.getFirstAsync('SELECT * FROM user')
+    setName(row.name)
+  }
+
+  if (isLoading){
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -64,7 +80,9 @@ export default function App() {
           }}
           />:
         <>
-          <Tab.Screen name="Home" component={Home}
+          <Tab.Screen name="Home" 
+          component={Home}
+          // children={() => <Home name={name} />}
           options={{
             tabBarIcon: ({ color }) => (
               <Icon name='home' size={24} color={color}></Icon>

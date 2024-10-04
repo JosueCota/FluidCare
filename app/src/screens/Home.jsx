@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
 
-export default Home = () => {
+export default Home = ({name}) => {
 
     return (
         <View>
-            <Text>This is home</Text>
+            <Text>This is home {name}</Text>
         </View>
     );
 }
