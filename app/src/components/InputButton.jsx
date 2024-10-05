@@ -6,15 +6,14 @@ export default InputButton = () => {
     const nav = useNavigation();
     return (
         <Pressable style={({pressed}) => [styles.Button, pressed && styles.Pressed]}>
-            <Text title="Input" onPress={() => null}>Input</Text>
+            <Text style={styles.Text} title="Input">Input</Text>
         </Pressable>
     );
 }
 
 const styles = {
     Button: {
-        fontSize: 20,
-        textAlign: "center",
+        width: 100,
         padding: 10,
         borderRadius: 5,
         backgroundColor: "lightblue",
@@ -23,6 +22,12 @@ const styles = {
         margin: 10,
     },
     Pressed: {
-        backgroundColor: "blue"
+        backgroundColor: "blue",
+    },
+    Text: {
+        color: "white",
+        fontSize: 20,
+        textAlign: "center",
+
     }
 }
