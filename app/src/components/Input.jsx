@@ -15,6 +15,11 @@ export default Input = ({title, placeholder, callback}) => {
 
 const styles = {
     Input: {
-
+        fontSize: 20,
+        padding: 5,
+        margin: 10,
+        borderWidth: 1,
+        borderColor: "grey",
+        borderRadius: 5
     }
 }

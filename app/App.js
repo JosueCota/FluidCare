@@ -10,31 +10,23 @@ import Profile from './src/screens/Profile';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Setup from './src/screens/Setup';
 
-
+import { createDB } from './src/API';
 
 export default function App() {
   const Tab = createBottomTabNavigator();
   
   const [name, setName] = useState("");
-  const [setupDone, setSetupDone] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const db = SQLite.openDatabaseSync("fluidDB.db");
 
-  const db = SQLite.openDatabaseSync("fluidDB.db")
-
+  
   useEffect(() => {
     setIsLoading(false)
     console.log(name)
   }, [name])
-
+  
   useEffect(() => {
-      db.execAsync(`
-        PRAGMA journal_mode = WAL;
-        CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, diaDays TEXT NOT NULL, diaTime TEXT NOT NULL);
-        `)
-        .then(() => setUser())
-        .catch((error) => {
-          console.log(error)
-        })
+      createDB(db);
     }, [])
 
   async function setUser() {
@@ -50,61 +42,63 @@ export default function App() {
     );
   }
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={() => ({
-          tabBarActiveTintColor: '#64ace4',
-          tabBarInactiveTintColor: 'gray',
-          tabBarLabelStyle: {
-            fontSize: 15,
-            fontWeight: 500
-          },
-          tabBarStyle: {
-            backgroundColor: "white"
-          },
-          headerTitleAlign: "center",
-          headerTitle: name? name: "FluidCare",
-          headerTintColor: "white",
-          headerStyle: {
-            backgroundColor: "#64ace4"
-          }
-        })}
-      >
-        {
-          !name ? 
-          <Tab.Screen name="Setup" component={Setup}
-          options={{
-            tabBarStyle: {
-              display: "none"
+    <SQLite.SQLiteProvider databaseName='fluidDB.db'>
+      <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={() => ({
+                tabBarActiveTintColor: '#64ace4',
+                tabBarInactiveTintColor: 'gray',
+                tabBarLabelStyle: {
+                  fontSize: 15,
+                  fontWeight: 500
+                },
+                tabBarStyle: {
+                  backgroundColor: "white"
+                },
+                headerTitleAlign: "center",
+                headerTitle: name? name: "FluidCare",
+                headerTintColor: "white",
+                headerStyle: {
+                  backgroundColor: "#64ace4"
+                }
+              })}
+              >
+              {
+                !name ? 
+                <Tab.Screen name="Setup" component={Setup}
+                options={{
+                  tabBarStyle: {
+                    display: "none"
+                  }
+                }}
+                />:
+                <>
+                <Tab.Screen name="Home" 
+                component={Home}
+                // children={() => <Home name={name} />}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name='home' size={24} color={color}></Icon>
+                  )
+                }}
+                />
+                <Tab.Screen name="Tracking" component={Tracking}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name="trending-up" size={35} color={color}></Icon>
+                  )
+                }}/>
+                <Tab.Screen name="Profile" component={Profile}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name='person' size={24} color={color}></Icon>
+                  )
+                }}/>
+              </>
             }
-          }}
-          />:
-        <>
-          <Tab.Screen name="Home" 
-          component={Home}
-          // children={() => <Home name={name} />}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name='home' size={24} color={color}></Icon>
-            )
-          }}
-          />
-          <Tab.Screen name="Tracking" component={Tracking}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name="trending-up" size={35} color={color}></Icon>
-            )
-          }}/>
-          <Tab.Screen name="Profile" component={Profile}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name='person' size={24} color={color}></Icon>
-            )
-          }}/>
-        </>
-      }
-      </Tab.Navigator>
-    </NavigationContainer>
+            </Tab.Navigator>
+          </NavigationContainer>
+      </SQLite.SQLiteProvider>
   );
 }
 

@@ -1,11 +1,10 @@
 import { View, Text } from "react-native";
-
-
-export default Home = ({name}) => {
-
+import { useSQLiteContext } from "expo-sqlite";
+export default Home = () => {
+    const db = useSQLiteContext()
     return (
         <View>
-            <Text>This is home {name}</Text>
+            <Text>This is home </Text>
         </View>
     );
 }
