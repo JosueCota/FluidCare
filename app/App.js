@@ -17,6 +17,7 @@ export default function App() {
   
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [info, setInfo] = useState([])
   const db = SQLite.openDatabaseSync("fluidDB.db");
 
   

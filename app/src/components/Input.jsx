@@ -1,37 +1,41 @@
-import { Text, TextInput } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import Icon from "react-native-ionicons";
 
-
-export default Input = ({title, placeholder, callback, label}) => {
+export default Input = ({title, placeholder, callback, label, value}) => {
 
     return (   
-        <>
-            <Text style={styles.Label}>
-                {label}:            
+        <View style={styles.Container}>
+            <Text style={styles.Label}>{label}:
             </Text>
-                <TextInput 
-                style={styles.Input} 
-                onChange={() => callback} 
-                title={title}
-                placeholder={placeholder}
-                />  
-        </>
+            <TextInput 
+            style={styles.Input} 
+            onChange={() => callback} 
+            title={title}
+            placeholder={placeholder}
+            value={value}
+            
+        /> 
+        </View>
     );
 }
 
-const styles = {
+const styles = StyleSheet.create({
     Input: {
-        display: "inline",
+        marginLeft: 10,
         fontSize: 20,
-        padding: 5,
-        marginTop: 1,
-        marginBottom: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: "grey",
+        padding: 0,
+        width: "80%",
         borderRadius: 5,
     },
     Label: {
         fontSize: 20,
-        marginLeft: 5,
-        marginBottom: 20
+    }, 
+    Container: {
+        flexDirection: "row",
+        marginBottom: 30,
+        borderBottomWidth: 1,
+        borderBottomColor: "grey",
+        alignSelf:"center",
+        padding:5,
     }
-}
+});

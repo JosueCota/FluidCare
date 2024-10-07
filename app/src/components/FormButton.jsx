@@ -1,27 +1,24 @@
-import { useNavigation } from "@react-navigation/native";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
 
 
 export default FormButton = ({title, onPress, type}) => {
-    const nav = useNavigation();
+
     return (
         <Pressable onPress={onPress} 
         style={({pressed}) => type!=="input"?
             [styles.SubmitButton, pressed && styles.SubmitPressed]
             :[styles.InputButton, pressed && styles.InputPressed]}
         >
-            <Text style={styles.Text} title={title}>{title}</Text>
+            <Text style={[styles.Text, type==="input" && {color:"black"}]} title={title}>{title}</Text>
         </Pressable>
     );
 }
 
-const styles = {
+const styles = StyleSheet.create({
     //Submit button for submitting forms
     SubmitButton: {
-        margin: "auto",
         marginTop: 10,
         marginBottom: 10,
-        width: "90%",
         padding: 10,
         borderRadius: 5,
         backgroundColor: "#64ace4",
@@ -42,9 +39,10 @@ const styles = {
         marginBottom: 10,
         padding: 10,
         borderRadius: 5,
-        backgroundColor: "grey",
+        borderWidth: 1,
+        borderColor: "grey"
     },
     InputPressed: {
         backgroundColor: "darkgrey",
     }
-}
+});

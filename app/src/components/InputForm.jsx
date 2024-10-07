@@ -1,20 +1,22 @@
-import { Button, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Input from "./Input"
 import FormButton from "./FormButton";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import React, { useState, useEffect } from 'react';
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Icon from "react-native-ionicons";
 import { hourFormat12, hourFormat24 } from "../util";
 
-export default InputForm = () => {
+export default InputForm = ({setName, name, setInfo, info}) => {
     const [selected, setSelected] = useState([]);
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const [time, setTime] = useState("")
-
+    
+    useEffect(() => {
+        console.log(hourFormat24(time));
+    }, [time])
     const handleSubmit = (date) => {
-
+        
     }
 
     const handleConfirm = (e, selectedDate) => {
@@ -24,7 +26,6 @@ export default InputForm = () => {
             return hourFormat12(`${selectedDate.getHours()}:${selectedDate.getMinutes()}`)}
         );
         setShow(false);
-        console.log(hourFormat24(time));
     }
 
     const data = [
@@ -39,17 +40,16 @@ export default InputForm = () => {
     
     return (
         <View style={styles.Container}>
-            <Input label="Name" placeholder={"Ex: John Doe"} title={"name"} callback={null}/>
+            <Input label="Name" placeholder={"Enter Name"} title={"name"} callback={null}/>
             <MultipleSelectList
                 setSelected={(val) => setSelected(val)}
-                style={styles.Select}
                 data={data}
                 placeholder="Select Dialysis Days"
                 label="Dialysis Days"
                 save="value"
                 badgeStyles={{backgroundColor:"#0009"}}
             />
-            <FormButton onPress={() => setShow(true)} title={time? time:"Set Dialysis Time"} type={"input"}/>
+            <FormButton onPress={() => setShow(true)} title={time? `Set to ${time}`:"Set Dialysis Time"} type={"input"}/>
 
             { show &&
                 <DateTimePicker
@@ -57,6 +57,7 @@ export default InputForm = () => {
                 mode="time" 
                 is24Hour={true}
                 onChange={handleConfirm}
+                required
                 />
             }
 
@@ -66,11 +67,11 @@ export default InputForm = () => {
     
 }
 
-const styles = {
+const styles = StyleSheet.create({
     Container: {
-        flexDirection: "column",
+        width: "90%",
+        justifyContent: "space-around",
         alignContent: "center",
-        width: "80%",
-        margin: "auto",
+        alignSelf: "center",
     },
-}
+});

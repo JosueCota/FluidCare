@@ -7,20 +7,22 @@ export function hourFormat24 (str) {
 
     //12 Hour Formatted
     if (str.length > 5) {
-        const [time, period] = str.split(" ")
+        const [time, period] = str.split(" ");
         [hours, minutes] = time.split(":").map(Number);
         if (period === "PM" && hours < 12) {
             hours += 12;
         } else if (period === "AM" && hours === 12) {
             hours = 0;
         }
-    } else {
+    } 
+    //For Setup Info Screen Input / Changing Setup Info
+    else {
         [hours, minutes] = str.split(":").map(Number);
     }
     
     hours = String(hours).padStart(2, "0");
     minutes = String(minutes).padStart(2, "0");
-    return hours + ":" + minutes
+    return hours + ":" + minutes;
 }
 
 //Formats 24Hour into 12Hour
