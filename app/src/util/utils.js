@@ -1,11 +1,11 @@
-
+//File for utility functions like data conversions
 
 //By default, input formatted in 24, function makes sure it shows in 00:00hrs format
 export function hourFormat24 (str) {
     
     let [hours, minutes]= ["", ""];
 
-    //12 Hour Formatted
+    //Currrently 12 Hour Formatted
     if (str.length > 5) {
         const [time, period] = str.split(" ");
         [hours, minutes] = time.split(":").map(Number);
@@ -22,11 +22,16 @@ export function hourFormat24 (str) {
     
     hours = String(hours).padStart(2, "0");
     minutes = String(minutes).padStart(2, "0");
-    return hours + ":" + minutes;
+    try{ 
+        return hours + ":" + minutes;
+    } catch(error) {
+        console.log(error);
+    }
 }
 
 //Formats 24Hour into 12Hour
 export function hourFormat12 (str) {
+    //Makes sure str is already properly formatted
     str = hourFormat24(str);
     const [hourString, minute] = str.split(":");
     const hour = + hourString % 24;

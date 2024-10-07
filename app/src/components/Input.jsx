@@ -4,16 +4,16 @@ import Icon from "react-native-ionicons";
 export default Input = ({title, placeholder, callback, label, value}) => {
 
     return (   
+        
         <View style={styles.Container}>
             <Text style={styles.Label}>{label}:
             </Text>
             <TextInput 
             style={styles.Input} 
-            onChange={() => callback} 
+            onChange={callback} 
             title={title}
             placeholder={placeholder}
             value={value}
-            
         /> 
         </View>
     );

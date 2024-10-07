@@ -2,17 +2,10 @@ import InputForm from "../components/InputForm";
 import { StyleSheet, View } from "react-native";
 
 
-export default Setup = ({setName, name, setInfo, info}) => {
+export default Setup = () => {
     return (
-        <View style={styles.InputContainer}>
-            <InputForm />    
+        <View style={{marginTop:20}}>
+            <InputForm/>    
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    InputContainer: {
-        flex: 1,
-        height: "100%"
-    }
-})

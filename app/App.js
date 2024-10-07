@@ -10,7 +10,7 @@ import Profile from './src/screens/Profile';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Setup from './src/screens/Setup';
 
-import { createDB } from './src/API';
+import { createDB } from './src/database/API';
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -66,7 +66,10 @@ export default function App() {
               >
               {
                 !name ? 
-                <Tab.Screen name="Setup" component={Setup}
+                <Tab.Screen name="Setup" 
+                  children={()=> {
+                   return ( <Setup/> )
+                  }}
                 options={{
                   tabBarStyle: {
                     display: "none"

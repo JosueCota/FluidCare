@@ -15,7 +15,7 @@ export default FormButton = ({title, onPress, type}) => {
 }
 
 const styles = StyleSheet.create({
-    //Submit button for submitting forms
+    //Button for submitting forms
     SubmitButton: {
         marginTop: 10,
         marginBottom: 10,
@@ -33,14 +33,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: "center",
     },
-    //Input button for buttons that trigger non-form submissions
+    //Buttons that trigger non-form submissions
     InputButton: {
         marginTop: 10,
         marginBottom: 10,
         padding: 10,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: "grey"
+        borderColor: "grey",
+        backgroundColor:"white"
     },
     InputPressed: {
         backgroundColor: "darkgrey",
